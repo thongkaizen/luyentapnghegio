@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Nghe Giờ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .audio-item {
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Luyện Nghe Tiếng Anh</h1>
+    <div id="audio-container">
+        <!-- Các file nghe sẽ được thêm vào đây -->
+    </div>
+    <button onclick="submitAnswers()">Nộp Bài</button>
+    <div id="result"></div>
+
+    <script>
+        // Danh sách các file nghe và đáp án
+        const audioFiles = [
+            { url: "https://example.com/audio1.mp3", answer: "01:23" },
+            { url: "https://example.com/audio2.mp3", answer: "02:34" },
+            // Thêm các file nghe và đáp án tương ứng ở đây
+        ];
+
+        const audioContainer = document.getElementById('audio-container');
+        const resultDiv = document.getElementById('result');
+
+        // Tạo các phần tử audio và input cho mỗi file nghe
+        audioFiles.forEach((audio, index) => {
+            const audioItem = document.createElement('div');
+            audioItem.className = 'audio-item';
+
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            audioElement.src = audio.url;
+            audioItem.appendChild(audioElement);
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Nhập giờ (hh:mm)';
+            input.id = `answer${index}`;
+            audioItem.appendChild(input);
+
+            audioContainer.appendChild(audioItem);
+        });
+
+        // Hàm chấm điểm
+        function submitAnswers() {
+            let score = 0;
+            let resultHTML = '<h2>Kết Quả:</h2>';
+
+            audioFiles.forEach((audio, index) => {
+                const userAnswer = document.getElementById(`answer${index}`).value;
+                if (userAnswer === audio.answer) {
+                    score += 5;
+                    resultHTML += `<p>Câu ${index + 1}: Đúng (+5 điểm)</p>`;
+                } else {
+                    resultHTML += `<p>Câu ${index + 1}: Sai. Đáp án đúng là ${audio.answer}</p>`;
+                }
+            });
+
+            resultHTML += `<p>Tổng điểm: ${score} điểm</p>`;
+            resultDiv.innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
